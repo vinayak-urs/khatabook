@@ -72,31 +72,42 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
+    var appBar = AppBar(
+      title: Text("Khatabook"),
+      // centerTitle: true,
+      actions: [
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 20),
+          child: IconButton(
+              icon: Icon(
+                Icons.add,
+                color: Theme.of(context).accentColor,
+                size: 40,
+              ),
+              onPressed: () {
+                startAddNewTransaction(context);
+              }),
+        )
+      ],
+    );
     return Scaffold(
-      appBar: AppBar(
-        title: Text("Khatabook"),
-        // centerTitle: true,
-        actions: [
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20),
-            child: IconButton(
-                icon: Icon(
-                  Icons.add,
-                  color: Theme.of(context).accentColor,
-                  size: 40,
-                ),
-                onPressed: () {
-                  startAddNewTransaction(context);
-                }),
-          )
-        ],
-      ),
+      appBar: appBar,
       body: SingleChildScrollView(
         child: Column(
           children: [
-            Chart(_recentTransactions),
+            Container(
+                height: (MediaQuery.of(context).size.height -
+                        appBar.preferredSize.height -
+                        MediaQuery.of(context).padding.top) *
+                    0.25,
+                child: Chart(_recentTransactions)),
             // UserTransactions(),
-            TransactionList(transactions, _delteTransaction),
+            Container(
+                height: (MediaQuery.of(context).size.height -
+                        appBar.preferredSize.height -
+                        MediaQuery.of(context).padding.top) *
+                    0.75,
+                child: TransactionList(transactions, _delteTransaction)),
           ],
         ),
       ),

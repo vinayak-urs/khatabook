@@ -8,52 +8,48 @@ class TransactionList extends StatelessWidget {
   TransactionList(this.transactions, this._deleteTransaction);
   @override
   Widget build(BuildContext ctx) {
-    return Container(
-      height: 550,
-      child: transactions.isEmpty
-          ? Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  "No Transactions Yet !",
-                  style: TextStyle(fontSize: 30),
-                ),
-              ],
-            )
-          : ListView.builder(
-              itemBuilder: (ctx, index) {
-                return Card(
-                  elevation: 6,
-                  child: ListTile(
-                    leading: CircleAvatar(
-                      radius: 40,
-                      child: Padding(
-                        padding: const EdgeInsets.all(10.0),
-                        child: FittedBox(
-                            child: Text("₹ ${transactions[index].amount}")),
-                      ),
-                    ),
-                    title: Text(
-                      transactions[index].title,
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                    subtitle: Text(
-                      DateFormat.yMMMd().format(transactions[index].date),
-                    ),
-                    trailing: IconButton(
-                      icon: Icon(
-                        Icons.delete,
-                        color: Colors.red,
-                      ),
-                      onPressed: () =>
-                          _deleteTransaction(transactions[index].id),
-                      // color: Colors.red,
+    return transactions.isEmpty
+        ? Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                "No Transactions Yet !",
+                style: TextStyle(fontSize: 30),
+              ),
+            ],
+          )
+        : ListView.builder(
+            itemBuilder: (ctx, index) {
+              return Card(
+                elevation: 6,
+                child: ListTile(
+                  leading: CircleAvatar(
+                    radius: 40,
+                    child: Padding(
+                      padding: const EdgeInsets.all(10.0),
+                      child: FittedBox(
+                          child: Text("₹ ${transactions[index].amount}")),
                     ),
                   ),
-                );
-              },
-              itemCount: transactions.length,
-            ),
-    );
+                  title: Text(
+                    transactions[index].title,
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                  subtitle: Text(
+                    DateFormat.yMMMd().format(transactions[index].date),
+                  ),
+                  trailing: IconButton(
+                    icon: Icon(
+                      Icons.delete,
+                      color: Colors.red,
+                    ),
+                    onPressed: () => _deleteTransaction(transactions[index].id),
+                    // color: Colors.red,
+                  ),
+                ),
+              );
+            },
+            itemCount: transactions.length,
+          );
   }
 }
