@@ -4,11 +4,12 @@ import 'package:khatabook/models/transaction.dart';
 
 class TransactionList extends StatelessWidget {
   final List<Transaction> transactions;
-  TransactionList(this.transactions);
+  final Function _deleteTransaction;
+  TransactionList(this.transactions, this._deleteTransaction);
   @override
   Widget build(BuildContext ctx) {
     return Container(
-      height: 500,
+      height: 550,
       child: transactions.isEmpty
           ? Column(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -34,9 +35,19 @@ class TransactionList extends StatelessWidget {
                     ),
                     title: Text(
                       transactions[index].title,
+                      style: TextStyle(fontWeight: FontWeight.bold),
                     ),
                     subtitle: Text(
                       DateFormat.yMMMd().format(transactions[index].date),
+                    ),
+                    trailing: IconButton(
+                      icon: Icon(
+                        Icons.delete,
+                        color: Colors.red,
+                      ),
+                      onPressed: () =>
+                          _deleteTransaction(transactions[index].id),
+                      // color: Colors.red,
                     ),
                   ),
                 );
