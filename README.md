@@ -12,6 +12,6 @@ This is a Personal Utillity applilcation for Personal Expense Tracker
   
   
 # Upcoming Features
- . Local Database Integration for saving the transactions
- . User Authentication 
- . Server Integrartion which allow to use it across several devices.
+ * Local Database Integration for saving the transactions
+ * User Authentication 
+ * Server Integrartion which allow to use it across several devices.
