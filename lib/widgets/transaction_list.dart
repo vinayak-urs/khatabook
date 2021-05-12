@@ -1,55 +1,71 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:khatabook/models/transaction.dart';
+
+import '../models/transaction.dart';
 
 class TransactionList extends StatelessWidget {
   final List<Transaction> transactions;
-  final Function _deleteTransaction;
-  TransactionList(this.transactions, this._deleteTransaction);
+  final Function deleteTx;
+
+  TransactionList(this.transactions, this.deleteTx);
+
   @override
-  Widget build(BuildContext ctx) {
-    return transactions.isEmpty
-        ? Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                "No Transactions Yet !",
-                style: TextStyle(fontSize: 30),
-              ),
-            ],
-          )
-        : ListView.builder(
-            itemBuilder: (ctx, index) {
-              return Card(
-                elevation: 6,
-                child: ListTile(
-                  leading: CircleAvatar(
-                    radius: 40,
-                    child: Padding(
-                      padding: const EdgeInsets.all(10.0),
-                      child: FittedBox(
-                          child: Text("₹ ${transactions[index].amount}")),
-                    ),
-                  ),
-                  title: Text(
-                    transactions[index].title,
-                    style: TextStyle(fontWeight: FontWeight.bold),
-                  ),
-                  subtitle: Text(
-                    DateFormat.yMMMd().format(transactions[index].date),
-                  ),
-                  trailing: IconButton(
-                    icon: Icon(
-                      Icons.delete,
-                      color: Colors.red,
-                    ),
-                    onPressed: () => _deleteTransaction(transactions[index].id),
-                    // color: Colors.red,
-                  ),
+  Widget build(BuildContext context) {
+    return Container(
+      height: 450,
+      child: transactions.isEmpty
+          ? Column(
+              children: <Widget>[
+                Text(
+                  'No transactions added yet!',
+                  style: Theme.of(context).textTheme.title,
                 ),
-              );
-            },
-            itemCount: transactions.length,
-          );
+                SizedBox(
+                  height: 20,
+                ),
+                Container(
+                    height: 200,
+                    child: Image.asset(
+                      'assets/images/waiting.png',
+                      fit: BoxFit.cover,
+                    )),
+              ],
+            )
+          : ListView.builder(
+              itemBuilder: (ctx, index) {
+                return Card(
+                  elevation: 5,
+                  margin: EdgeInsets.symmetric(
+                    vertical: 8,
+                    horizontal: 5,
+                  ),
+                  child: ListTile(
+                    leading: CircleAvatar(
+                      radius: 30,
+                      child: Padding(
+                        padding: EdgeInsets.all(6),
+                        child: FittedBox(
+                          child: Text('\$${transactions[index].amount}'),
+                        ),
+                      ),
+                    ),
+                    title: Text(
+                      transactions[index].title,
+                      style: Theme.of(context).textTheme.title,
+                    ),
+                    subtitle: Text(
+                      DateFormat.yMMMd().format(transactions[index].date),
+                    ),
+                    trailing: IconButton(
+                      icon: Icon(Icons.delete),
+                      color: Theme.of(context).errorColor,
+                      onPressed: () => deleteTx(transactions[index].id),
+                    ),
+                  ),
+                );
+              },
+              itemCount: transactions.length,
+            ),
+    );
   }
 }

@@ -1,121 +1,138 @@
 import 'package:flutter/material.dart';
-import 'package:khatabook/widgets/chart.dart';
-import 'package:khatabook/widgets/new_transaction.dart';
 
-// import 'package:khatabook/widgets/user_transaction.dart';
+import './widgets/new_transaction.dart';
+import './widgets/transaction_list.dart';
+import './widgets/chart.dart';
+import './models/transaction.dart';
 
-import 'models/transaction.dart';
-import 'widgets/transaction_list.dart';
-
-void main() {
-  runApp(MyApp());
-}
+void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      title: 'Khatabook',
+      theme: ThemeData(
+          primarySwatch: Colors.purple,
+          accentColor: Colors.amber,
+          // errorColor: Colors.red,
+          fontFamily: 'Quicksand',
+          textTheme: ThemeData.light().textTheme.copyWith(
+                title: TextStyle(
+                  fontFamily: 'OpenSans',
+                  fontWeight: FontWeight.bold,
+                  fontSize: 18,
+                ),
+                button: TextStyle(color: Colors.white),
+              ),
+          appBarTheme: AppBarTheme(
+            textTheme: ThemeData.light().textTheme.copyWith(
+                  title: TextStyle(
+                    fontFamily: 'OpenSans',
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+          )),
       home: MyHomePage(),
-      theme: ThemeData(primarySwatch: Colors.purple, accentColor: Colors.amber),
     );
   }
 }
 
 class MyHomePage extends StatefulWidget {
+  // String titleInput;
+  // String amountInput;
   @override
   _MyHomePageState createState() => _MyHomePageState();
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  final List<Transaction> transactions = [
-    Transaction(
-      id: "Ti",
-      title: "New Shoes",
-      amount: 69.9,
-      date: DateTime.now(),
-    ),
+  final List<Transaction> _userTransactions = [
+    // Transaction(
+    //   id: 't1',
+    //   title: 'New Shoes',
+    //   amount: 69.99,
+    //   date: DateTime.now(),
+    // ),
+    // Transaction(
+    //   id: 't2',
+    //   title: 'Weekly Groceries',
+    //   amount: 16.53,
+    //   date: DateTime.now(),
+    // ),
   ];
 
   List<Transaction> get _recentTransactions {
-    return transactions.where((tx) {
-      return tx.date.isAfter(DateTime.now().subtract(
-        Duration(days: 7),
-      ));
+    return _userTransactions.where((tx) {
+      return tx.date.isAfter(
+        DateTime.now().subtract(
+          Duration(days: 7),
+        ),
+      );
     }).toList();
   }
 
-  void _addTransaction(String title, double amount, DateTime txDate) {
+  void _addNewTransaction(
+      String txTitle, double txAmount, DateTime chosenDate) {
     final newTx = Transaction(
-        title: title,
-        amount: amount,
-        id: DateTime.now().toString(),
-        date: txDate == null ? DateTime.now() : txDate);
+      title: txTitle,
+      amount: txAmount,
+      date: chosenDate,
+      id: DateTime.now().toString(),
+    );
+
     setState(() {
-      transactions.add(newTx);
+      _userTransactions.add(newTx);
     });
   }
 
-  void startAddNewTransaction(BuildContext ctx) {
+  void _startAddNewTransaction(BuildContext ctx) {
     showModalBottomSheet(
       context: ctx,
       builder: (_) {
-        return NewTransaction(_addTransaction);
+        return GestureDetector(
+          onTap: () {},
+          child: NewTransaction(_addNewTransaction),
+          behavior: HitTestBehavior.opaque,
+        );
       },
     );
   }
 
-  void _delteTransaction(String id) {
+  void _deleteTransaction(String id) {
     setState(() {
-      transactions.removeWhere((element) => element.id == id);
+      _userTransactions.removeWhere((tx) => tx.id == id);
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    var appBar = AppBar(
-      title: Text("Khatabook"),
-      // centerTitle: true,
-      actions: [
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20),
-          child: IconButton(
-              icon: Icon(
-                Icons.add,
-                color: Theme.of(context).accentColor,
-                size: 40,
-              ),
-              onPressed: () {
-                startAddNewTransaction(context);
-              }),
-        )
-      ],
-    );
     return Scaffold(
-      appBar: appBar,
+      appBar: AppBar(
+        title: Text(
+          'Khatabook',
+        ),
+        actions: <Widget>[
+          IconButton(
+            icon: Icon(Icons.add),
+            onPressed: () => _startAddNewTransaction(context),
+          ),
+        ],
+      ),
       body: SingleChildScrollView(
         child: Column(
-          children: [
-            Container(
-                height: (MediaQuery.of(context).size.height -
-                        appBar.preferredSize.height -
-                        MediaQuery.of(context).padding.top) *
-                    0.25,
-                child: Chart(_recentTransactions)),
-            // UserTransactions(),
-            Container(
-                height: (MediaQuery.of(context).size.height -
-                        appBar.preferredSize.height -
-                        MediaQuery.of(context).padding.top) *
-                    0.75,
-                child: TransactionList(transactions, _delteTransaction)),
+          // mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: <Widget>[
+            Chart(_recentTransactions),
+            TransactionList(_userTransactions, _deleteTransaction),
           ],
         ),
       ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          startAddNewTransaction(context);
-        },
         child: Icon(Icons.add),
+        onPressed: () => _startAddNewTransaction(context),
       ),
     );
   }
