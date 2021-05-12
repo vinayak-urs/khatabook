@@ -7,8 +7,8 @@ This is a Personal Utillity applilcation for Personal Expense Tracker
 
 # Salient Features
   > Expense Tracker History listview
-  > Recent expense chartbar pinned over listview
-  > Easy Expense addition and deletion feature
+  >> Recent expense chartbar pinned over listview
+  >>> Easy Expense addition and deletion feature
   
   
 # Upcoming Features
