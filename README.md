@@ -6,8 +6,8 @@ This is a Personal Utillity applilcation for Personal Expense Tracker
 > [App Link](https://drive.google.com/file/d/1_DH9xLzMti7k7f9U2vJ2quw1xgplwF_E/view?usp=sharing)
 
 # Demo
-![Demo](https://github.com/in-00/Restaurant-menu/blob/master/E-menu1.gif)
-![Demo](https://github.com/in-00/Restaurant-menu/blob/master/E-menu2.gif)
+![Demo](https://github.com/in-00/khatabook/blob/master/khatabook1.gif)
+![Demo](https://github.com/in-00/khatabook/blob/master/khatabook2.gif)
 
 # Salient Features
   * Expense Tracker History listview
