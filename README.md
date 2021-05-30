@@ -7,7 +7,6 @@ This is a Personal Utillity applilcation for Personal Expense Tracker
 
 # Demo
 ![Demo](https://github.com/in-00/Restaurant-menu/blob/master/E-menu1.gif)
-
 ![Demo](https://github.com/in-00/Restaurant-menu/blob/master/E-menu2.gif)
 
 # Salient Features
